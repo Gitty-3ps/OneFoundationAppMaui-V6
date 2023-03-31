@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OneFoundationAppMaui.MainPage"
+             xmlns:local="clr-namespace:OneFoundationAppMaui"
+             Shell.NavBarIsVisible ="False">
+
+    <VerticalStackLayout BackgroundColor="Transparent">
+        <VerticalStackLayout Spacing="0"
+                             Padding="20, 0">
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Already have an Account?" FontSize="16" VerticalOptions="Center"/>
+                <Image Grid.Column="1" Source="one_foundation_app_logoi.png" HeightRequest="200" WidthRequest="200" />
+
+            </Grid>
+
+            <VerticalStackLayout Margin="0,20,0,0">
+                <Label Text="Email"/>
+                <StackLayout>
+                    <local:BorderlessEntry Placeholder="Enter email" Margin="{OnPlatform Android='0,0',iOS='0,10'}"/>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Margin="0,30,0,0">
+                <Label Text="Password"/>
+                <StackLayout>
+                    <local:BorderlessEntry Placeholder="Enter Password" Margin="{OnPlatform Android='0,0',iOS='0,10'}"
+                                           IsPassword="True"/>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            <Button Margin="0,30,0,0" Text="Login" CornerRadius="20" BackgroundColor="{x:StaticResource Primary}" TextColor="White"/>
+
+            <Label  Margin="0,25,0,0" Text="New User? Register Now" FontSize="14" HorizontalOptions="Center"/>
+
+            <Grid Margin="0,40,0,0" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <BoxView Grid.Column="0" HeightRequest="1" Color="Black"/>
+                <Label Grid.Column="1" Text="Use other Methods" FontSize="12" HorizontalOptions="Center"/>
+                <BoxView Grid.Column="2" HeightRequest="1" Color="Black"/>
+            </Grid>
+
+            <HorizontalStackLayout Margin="0,15,0,0" Spacing="15" HorizontalOptions="Center">
+                <Image Source="img_facebook.svg" WidthRequest="35" HeightRequest="35"/>
+                <Image Source="img_google.svg" WidthRequest="35" HeightRequest="35"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
