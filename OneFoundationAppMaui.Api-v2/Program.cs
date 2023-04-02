@@ -1,83 +1,74 @@
-
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OneFoundationAppMaui.Api_v2;
+using Serilog;
 
-namespace OneFoundationAppMaui.Api_v2
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddAuthorization();
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddCors(o => {
+    o.AddPolicy("AllowAll", a => a.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+});
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddCors(o =>
-            {
-                o.AddPolicy("AllowAll", a => a.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
-            });
-            var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
-            var conn = new SqliteConnection($"Data Source={dbPath}");
-            builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
+var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
+var conn = new SqliteConnection($"Data Source={dbPath}");
+builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
 
-            var app = builder.Build();
+builder.Host.UseSerilog((ctx, lc) =>
+    lc.WriteTo.Console()
+    .ReadFrom.Configuration(ctx.Configuration));
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+var app = builder.Build();
 
-            app.UseHttpsRedirection();
-            app.UseCors("AllowAll");
-            //app.UseAuthorization();  
+// Configure the HTTP request pipeline.
 
-            app.MapGet("/songs", async (SongListDbContext db) => await db.Songs.ToListAsync());
+app.UseSwagger();
+app.UseSwaggerUI();
 
-            app.MapGet("/songs/{id}", async (int id, SongListDbContext db) =>
-            await db.Songs.FindAsync(id) is Song song ? Results.Ok(song) : Results.NotFound()
-            );
 
-            app.MapPut("/songs/{id}", async (int id, Song song, SongListDbContext db) =>
-            {
-                var record = await db.Songs.FindAsync(id);
-                if (record != null) return Results.NotFound();
+app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
-                song.Title = record.Title;
-                song.Authors = record.Authors;
-                song.Lyrics = record.Lyrics;
+app.MapGet("/cars", async (SongListDbContext db) => await db.Songs.ToListAsync());
 
-                await db.SaveChangesAsync();
+app.MapGet("/cars/{id}", async (int id, SongListDbContext db) =>
+    await db.Songs.FindAsync(id) is Song song ? Results.Ok(song) : Results.NotFound()
+);
 
-                return Results.NoContent();
-            });
+app.MapPut("/cars/{id}", async (int id, Song song, SongListDbContext db) => {
+    var record = await db.Songs.FindAsync(id);
+    if (record is null) return Results.NotFound();
 
-            app.MapDelete("/songs/{id}", async (int id, SongListDbContext db) =>
-            {
-                var record = await db.Songs.FindAsync(id);
-                if (record != null) return Results.NotFound();
+    record.Title = song.Title;
+    record.Authors = song.Authors;
+    record.Lyrics = song.Lyrics;
 
-                db.Remove(record);
+    await db.SaveChangesAsync();
 
-                await db.SaveChangesAsync();
+    return Results.NoContent();
 
-                return Results.NoContent();
-            });
+});
 
-            app.MapPost("/songs/{id}", async (int id, Song song, SongListDbContext db) =>
-            {
-                await db.AddAsync(song);
-                await db.SaveChangesAsync();
+app.MapDelete("/cars/{id}", async (int id, SongListDbContext db) => {
+    var record = await db.Songs.FindAsync(id);
+    if (record is null) return Results.NotFound();
+    db.Remove(record);
+    await db.SaveChangesAsync();
 
-                return Results.Created($"/songs/{song.Id}", song);
-            });
+    return Results.NoContent();
 
-            app.Run();
-        }
-    }
-}
+});
+
+app.MapPost("/cars", async (Song song, SongListDbContext db) => {
+    await db.AddAsync(song);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/cars/{song.Id}", song);
+
+});
+
+app.Run();
