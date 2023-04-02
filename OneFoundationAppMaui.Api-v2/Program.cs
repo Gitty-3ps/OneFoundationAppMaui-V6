@@ -6,7 +6,7 @@ namespace OneFoundationAppMaui.Api_v2
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -35,29 +35,49 @@ namespace OneFoundationAppMaui.Api_v2
 
                 app.UseHttpsRedirection();
                 app.UseCors("AllowAll");
-                app.UseAuthorization();
+            //app.UseAuthorization();  
 
-                var summaries = new[]
-                {
-                    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-                };
+            app.MapGet("/songs", async (SongListDbContext db) => await db.Songs.ToListAsync());
 
-                app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-                {
-                    var forecast = Enumerable.Range(1, 5).Select(index =>
-                        new WeatherForecast
-                        {
-                            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                            TemperatureC = Random.Shared.Next(-20, 55),
-                            Summary = summaries[Random.Shared.Next(summaries.Length)]
-                        })
-                        .ToArray();
-                    return forecast;
-                })
-                .WithName("GetWeatherForecast")
-                .WithOpenApi();
+            app.MapGet("/songs/{id}", async (int id, SongListDbContext db) => 
+            await db.Songs.FindAsync(id) is Song song ? Results.Ok(song) : Results.NotFound()
+            );
 
-                app.Run();
+            app.MapPut("/songs/{id}", async (int id, Song song, SongListDbContext db) =>
+            {
+                var record = await db.Songs.FindAsync(id);
+                if (record != null) return Results.NotFound();
+
+                song.Title = record.Title;
+                song.Authors = record.Authors;
+                song.Lyrics = record.Lyrics;
+
+                await db.SaveChangesAsync();
+
+                return Results.NoContent();
+            });
+
+            app.MapDelete("/songs/{id}", async (int id, SongListDbContext db) =>
+            {
+                var record = await db.Songs.FindAsync(id);
+                if (record != null) return Results.NotFound();
+
+                db.Remove(record);
+
+                await db.SaveChangesAsync();
+
+                return Results.NoContent();
+            });
+
+            app.MapPost("/songs/{id}", async (int id, Song song, SongListDbContext db) =>
+            {
+                await db.AddAsync(song);
+                await db.SaveChangesAsync();
+
+                return Results.Created($"/songs/{song.Id}",song);
+            });
+
+            app.Run();
         }
     }
 }
