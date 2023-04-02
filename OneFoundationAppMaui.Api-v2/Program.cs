@@ -6,7 +6,7 @@ namespace OneFoundationAppMaui.Api_v2
 {
     public class Program
     {
-        public static async void Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -20,26 +20,26 @@ namespace OneFoundationAppMaui.Api_v2
             {
                 o.AddPolicy("AllowAll", a => a.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
             });
-                var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
-                var conn = new SqliteConnection($"Data Source={dbPath}");
-                builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
+            var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
+            var conn = new SqliteConnection($"Data Source={dbPath}");
+            builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
 
-                var app = builder.Build();
+            var app = builder.Build();
 
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
-                app.UseHttpsRedirection();
-                app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
             //app.UseAuthorization();  
 
             app.MapGet("/songs", async (SongListDbContext db) => await db.Songs.ToListAsync());
 
-            app.MapGet("/songs/{id}", async (int id, SongListDbContext db) => 
+            app.MapGet("/songs/{id}", async (int id, SongListDbContext db) =>
             await db.Songs.FindAsync(id) is Song song ? Results.Ok(song) : Results.NotFound()
             );
 
@@ -74,7 +74,7 @@ namespace OneFoundationAppMaui.Api_v2
                 await db.AddAsync(song);
                 await db.SaveChangesAsync();
 
-                return Results.Created($"/songs/{song.Id}",song);
+                return Results.Created($"/songs/{song.Id}", song);
             });
 
             app.Run();
