@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OneFoundationAppMaui.Models
 {
-    public class Song
+    public class Song : BaseEntity
     {
         public int Id { get; set; }
 
