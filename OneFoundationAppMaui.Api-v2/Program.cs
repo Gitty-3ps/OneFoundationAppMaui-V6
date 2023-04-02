@@ -15,7 +15,7 @@ builder.Services.AddCors(o => {
 });
 
 var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
-var conn = new SqliteConnection($"Data Source={dbPath}");
+var conn = new SqliteConnection($"Data Source=C:\\songlistdb\\songlist.db");
 builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
 
 builder.Host.UseSerilog((ctx, lc) =>
