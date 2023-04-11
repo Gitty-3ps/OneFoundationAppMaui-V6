@@ -11,10 +11,11 @@
     <FlyoutItem Route="Login" x:Name="MyLoginPage">
         <ShellContent ContentTemplate="{DataTemplate mylogin:LoginPage}"/>
     </FlyoutItem>
-        
+
     <ShellContent x:Name="MyDashboardPage"
         Title="Home"
-        ContentTemplate="{DataTemplate mylogin:DashboardPage}"
+        ContentTemplate="{DataTemplate local:MainPage}"
         Route="Dashboard" />
+ 
 
 </Shell>

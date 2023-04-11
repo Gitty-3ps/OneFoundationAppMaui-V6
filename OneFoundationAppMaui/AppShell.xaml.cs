@@ -1,4 +1,6 @@
-﻿namespace OneFoundationAppMaui;
+﻿using OneFoundationAppMaui.Views;
+
+namespace OneFoundationAppMaui;
 
 public partial class AppShell : Shell
 {
@@ -6,7 +8,9 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
-		var getuserSavedKey = Preferences.Get("UserAlreadyloggedIn", false);
+        Routing.RegisterRoute(nameof(SongDetailsPage), typeof(SongDetailsPage));
+/*
+        var getuserSavedKey = Preferences.Get("UserAlreadyloggedIn", false);
 
 		if (getuserSavedKey == true)
 		{
@@ -15,6 +19,6 @@ public partial class AppShell : Shell
 		else
 		{
             MyAppShell.CurrentItem = MyLoginPage;
-        }
+        }*/
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using OneFoundationAppMaui.Services;
+using OneFoundationAppMaui.ViewModels;
+using OneFoundationAppMaui.Views;
 
 namespace OneFoundationAppMaui;
 
@@ -15,10 +18,20 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
+		builder.Services.AddSingleton<SongService>();
 
-		return builder.Build();
+        builder.Services.AddSingleton<SongListViewModel>();
+        builder.Services.AddTransient<SongDetailsViewModel>();
+
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<SongDetailsPage>();
+
+
+        /*
+        #if DEBUG
+                builder.Logging.AddDebug();
+        #endif
+        */
+        return builder.Build();
 	}
 }

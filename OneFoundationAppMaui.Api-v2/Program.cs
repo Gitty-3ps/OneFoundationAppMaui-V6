@@ -33,13 +33,13 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
-app.MapGet("/cars", async (SongListDbContext db) => await db.Songs.ToListAsync());
+app.MapGet("/songs", async (SongListDbContext db) => await db.Songs.ToListAsync());
 
-app.MapGet("/cars/{id}", async (int id, SongListDbContext db) =>
+app.MapGet("/songs/{id}", async (int id, SongListDbContext db) =>
     await db.Songs.FindAsync(id) is Song song ? Results.Ok(song) : Results.NotFound()
 );
 
-app.MapPut("/cars/{id}", async (int id, Song song, SongListDbContext db) => {
+app.MapPut("/songs/{id}", async (int id, Song song, SongListDbContext db) => {
     var record = await db.Songs.FindAsync(id);
     if (record is null) return Results.NotFound();
 
@@ -53,7 +53,7 @@ app.MapPut("/cars/{id}", async (int id, Song song, SongListDbContext db) => {
 
 });
 
-app.MapDelete("/cars/{id}", async (int id, SongListDbContext db) => {
+app.MapDelete("/songs/{id}", async (int id, SongListDbContext db) => {
     var record = await db.Songs.FindAsync(id);
     if (record is null) return Results.NotFound();
     db.Remove(record);
@@ -63,11 +63,11 @@ app.MapDelete("/cars/{id}", async (int id, SongListDbContext db) => {
 
 });
 
-app.MapPost("/cars", async (Song song, SongListDbContext db) => {
+app.MapPost("/songs", async (Song song, SongListDbContext db) => {
     await db.AddAsync(song);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/cars/{song.Id}", song);
+    return Results.Created($"/songs/{song.Id}", song);
 
 });
 
