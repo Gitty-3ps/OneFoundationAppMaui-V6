@@ -1,11 +1,16 @@
-﻿namespace OneFoundationAppMaui;
+﻿using OneFoundationAppMaui.Services;
+using SongListApp.Maui.Services;
+
+namespace OneFoundationAppMaui;
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
+    public static SongDatabaseService SongDatabaseService { get; private set; }
+    public App(SongDatabaseService songDatabaseService)
+    {
+        InitializeComponent();
 
-		MainPage = new AppShell();
-	}
+        MainPage = new AppShell();
+        SongDatabaseService = songDatabaseService;
+    }
 }

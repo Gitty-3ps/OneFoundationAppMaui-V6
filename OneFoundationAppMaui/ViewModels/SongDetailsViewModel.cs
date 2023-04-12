@@ -1,17 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using OneFoundationAppMaui.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace OneFoundationAppMaui.ViewModels
 {
-    [QueryProperty(nameof(Song), "Song")]
-    public partial class SongDetailsViewModel : BaseViewModel
+    [QueryProperty(nameof(Id), nameof(Id))]
+    public partial class SongDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
-        Song song;      
+        Song song;
+
+        [ObservableProperty]
+        int id;
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            Id = Convert.ToInt32(HttpUtility.UrlDecode(query["Id"].ToString()));
+            Song = App.SongDatabaseService.GetSong(Id);
+        }
     }
 }

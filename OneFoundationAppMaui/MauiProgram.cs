@@ -2,6 +2,7 @@
 using OneFoundationAppMaui.Services;
 using OneFoundationAppMaui.ViewModels;
 using OneFoundationAppMaui.Views;
+using SongListApp.Maui.Services;
 
 namespace OneFoundationAppMaui;
 
@@ -18,7 +19,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddSingleton<SongService>();
+		string dbPath = Path.Combine(FileSystem.AppDataDirectory, "songs.db3");
+        builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance<SongDatabaseService>(s, dbPath));
+
+        builder.Services.AddTransient<SongApiService>();
+
 
         builder.Services.AddSingleton<SongListViewModel>();
         builder.Services.AddTransient<SongDetailsViewModel>();
