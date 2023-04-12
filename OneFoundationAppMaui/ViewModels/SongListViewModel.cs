@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Layouts;
 using OneFoundationAppMaui.Models;
 using OneFoundationAppMaui.Services;
 using OneFoundationAppMaui.Views;
@@ -17,6 +19,9 @@ namespace OneFoundationAppMaui.ViewModels
             Title = "Song List";
             this.songService = songService;
         }
+
+        [ObservableProperty]
+        bool isRefreshing; 
 
         [RelayCommand]
         async Task GetSongList()
@@ -40,6 +45,7 @@ namespace OneFoundationAppMaui.ViewModels
             finally
             {
                 IsLoading = false;
+                IsRefreshing = false;
             }
         }
 

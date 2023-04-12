@@ -7,19 +7,30 @@
              x:DataType ="viewmodel:SongListViewModel"
              Title="{Binding Title}">
     <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*, Auto">
-        <CollectionView Grid.ColumnSpan="2" ItemsSource="{Binding Songs}" SelectionMode="None">
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding GetSongListCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Songs}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Song">
-                    <Frame HeightRequest="90">
-                        <HorizontalStackLayout Padding="10" Spacing="5">
-                                <Label Text="{Binding Title }"></Label>
-                                <Label Text="{Binding Authors}"></Label>
-                                <Label Text="{Binding Lyrics}"></Label>
-                            </HorizontalStackLayout>
-                        </Frame>
+                        <Grid Padding="10">
+                            <Frame HeightRequest="90">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SongListViewModel}},  Path=GetSongDetailsCommand }"
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                <HorizontalStackLayout Padding="10" Spacing="5">
+                                    <Label Text="{Binding Title }"></Label>
+                                    <Label Text="{Binding Authors}"></Label>
+                                    <Label Text="{Binding Lyrics}"></Label>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+        </RefreshView>
+        
         <Button Text="Fetch Songs" Command="{Binding GetSongListCommand}" IsEnabled="{Binding IsNotLoading}" 
                 Grid.Row="1" Grid.Column="0" Margin="9"/>
     </Grid>

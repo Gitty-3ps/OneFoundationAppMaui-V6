@@ -8,9 +8,9 @@
     Shell.FlyoutBehavior="Flyout" 
     x:Name="MyAppShell">
 
-    <FlyoutItem Route="Login" x:Name="MyLoginPage">
+    <!--<FlyoutItem Route="Login" x:Name="MyLoginPage">
         <ShellContent ContentTemplate="{DataTemplate mylogin:LoginPage}"/>
-    </FlyoutItem>
+    </FlyoutItem>-->
 
     <ShellContent x:Name="MyDashboardPage"
         Title="Home"

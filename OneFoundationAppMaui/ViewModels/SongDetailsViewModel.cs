@@ -12,12 +12,6 @@ namespace OneFoundationAppMaui.ViewModels
     public partial class SongDetailsViewModel : BaseViewModel
     {
         [ObservableProperty]
-        Song song;
-
-        public SongDetailsViewModel()
-        {
-            Title = $"Song Details - {song.Authors} {song.Lyrics}";
-        }
-
+        Song song;      
     }
 }
