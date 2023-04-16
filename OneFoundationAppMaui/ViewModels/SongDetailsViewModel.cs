@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using OneFoundationAppMaui.Models;
+using OneFoundationAppMaui.Services;
 using System.Web;
 
 namespace OneFoundationAppMaui.ViewModels
@@ -7,6 +8,15 @@ namespace OneFoundationAppMaui.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public partial class SongDetailsViewModel : BaseViewModel, IQueryAttributable
     {
+        private readonly SongApiService songApiService;
+
+        public SongDetailsViewModel(SongApiService songApiService)
+        {
+            this.songApiService = songApiService;
+        }
+
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
         [ObservableProperty]
         Song song;
 
@@ -16,7 +26,18 @@ namespace OneFoundationAppMaui.ViewModels
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             Id = Convert.ToInt32(HttpUtility.UrlDecode(query["Id"].ToString()));
-            Song = App.SongDatabaseService.GetSong(Id);
+        }
+
+        public async Task GetSongData()
+        {
+            if (accessType == NetworkAccess.Internet)
+            {
+                Song = await songApiService.GetSong(Id);
+            }
+            else
+            {
+                Song = App.SongDatabaseService.GetSong(Id);
+            }
         }
     }
 }

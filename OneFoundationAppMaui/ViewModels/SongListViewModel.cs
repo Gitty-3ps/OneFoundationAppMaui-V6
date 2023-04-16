@@ -15,6 +15,8 @@ namespace OneFoundationAppMaui.ViewModels
         const string editButtonText = "Update Song";
         const string createButtonText = "Add Song";
         private readonly SongApiService songApiService;
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        string message = string.Empty;
 
         public ObservableCollection<Song> Songs { get; private set; } = new();
 
@@ -47,17 +49,21 @@ namespace OneFoundationAppMaui.ViewModels
             {
                 IsLoading = true;
                 if (Songs.Any()) Songs.Clear();
-                /*var songs = new List<Song>();
-                songs = await songApiService.GetSongs();*/
-
-                var songs = App.SongDatabaseService.GetSongs();
+                var songs = new List<Song>();
+                if(accessType == NetworkAccess.Internet)
+                {
+                    songs = await songApiService.GetSongs();
+                }
+                else
+                {
+                    songs = App.SongDatabaseService.GetSongs();
+                }               
                 foreach (var song in songs) Songs.Add(song);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Unable to get songs: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Falied to retrieve list of songs.", "OK");
-                throw;
+                await ShowAlert("Failed to retrieve list of songs");
             }
             finally
             {
@@ -79,7 +85,7 @@ namespace OneFoundationAppMaui.ViewModels
         {
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Authors) || string.IsNullOrEmpty(Lyrics))
             {
-                await Shell.Current.DisplayAlert("Invalid Data", "Please insert valid data", "Ok");
+                await ShowAlert("Please insert valid data");
                 return;
             }
 
@@ -93,15 +99,33 @@ namespace OneFoundationAppMaui.ViewModels
 
             if (SongId != 0)
             {
-                App.SongDatabaseService.UpdateSong(song);
-                await Shell.Current.DisplayAlert("Info", App.SongDatabaseService.StatusMessage, "Ok");
+                if (accessType == NetworkAccess.Internet)
+                {
+                    await songApiService.UpdateSong(SongId, song);
+                    message = songApiService.StatusMessage;
+                }
+                else
+                {
+                    App.SongDatabaseService.UpdateSong(song);
+                    message = App.SongDatabaseService.StatusMessage;
+                }
             }
             else
             {
-                App.SongDatabaseService.AddSong(song);
-                await Shell.Current.DisplayAlert("Info", App.SongDatabaseService.StatusMessage, "Ok");
+                if (accessType == NetworkAccess.Internet)
+                {
+                    await songApiService.AddSong(song);
+                    message = songApiService.StatusMessage;
+                }
+                else
+                {
+                    App.SongDatabaseService.AddSong(song);
+                    message = App.SongDatabaseService.StatusMessage;
+                }
+
             }
 
+            await ShowAlert(message);
             await GetSongList();
             await ClearForm();                
         }
@@ -143,16 +167,24 @@ namespace OneFoundationAppMaui.ViewModels
         {
             if (id == 0)
             {
-                await Shell.Current.DisplayAlert("Invalid Record", "Please try again", "Ok");
+                await ShowAlert("Please try again");
                 return;
             }
-            var result = App.SongDatabaseService.DeleteSong(id);
-            if (result == 0) await Shell.Current.DisplayAlert("Failed", "Please insert valid data", "Ok");
+
+            if (accessType == NetworkAccess.Internet)
+            {
+                await songApiService.DeleteSong(id);
+                message = songApiService.StatusMessage;
+            }
             else
             {
-                await Shell.Current.DisplayAlert("Deletion Successful", "Record Removed Successfully", "Ok");
-                await GetSongList();
+                App.SongDatabaseService.DeleteSong(id);
+                message = App.SongDatabaseService.StatusMessage;
             }
+
+            await ShowAlert(message);
+            await GetSongList();
+            
         }
 
         [RelayCommand]
@@ -174,6 +206,11 @@ namespace OneFoundationAppMaui.ViewModels
             Title = string.Empty;
             Authors = string.Empty;
             Lyrics = string.Empty;
+        }
+
+        private async Task ShowAlert(string message)
+        {
+            await Shell.Current.DisplayAlert("Info", message, "OK");
         }
 
         /*[RelayCommand]

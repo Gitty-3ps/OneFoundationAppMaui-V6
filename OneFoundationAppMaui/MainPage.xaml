@@ -5,8 +5,24 @@
              xmlns:model="clr-namespace:OneFoundationAppMaui.Models"
              xmlns:viewmodel="clr-namespace:OneFoundationAppMaui.ViewModels"
              x:DataType ="viewmodel:SongListViewModel"
-             Title="{Binding Title}">
-    <Grid ColumnSpacing="1" RowSpacing="1" Padding="5">
+             Title="Song List"
+             BackgroundColor="#F5F5F5">
+    <!--Title Binding not working, there is a property called Title for the song, that is most likely the problem, confusion-->
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans-Regular.ttf#OpenSans" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style TargetType="Entry">
+            <Setter Property="FontFamily" Value="OpenSans-Regular.ttf#OpenSans" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="OpenSans-Regular.ttf#OpenSans" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid ColumnSpacing="1" RowSpacing="1" Padding="5" BackgroundColor="{x:StaticResource Primary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -19,16 +35,16 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout Padding="5" Grid.Row="0" Margin="9">
-            <Entry x:Name="Title" Placeholder="Enter Title" Text="{Binding Title}" />
+            <Entry x:Name="Title" Placeholder="Enter Title" Text="{Binding Title}"/>
             <Entry x:Name="Authors" Placeholder="Enter Authors" Text="{Binding Authors}"/>
             <Entry x:Name="Lyrics" Placeholder="Enter Lyrics" Text="{Binding Lyrics}"/>
         </VerticalStackLayout>
 
 
-        <Button Text="{Binding AddEditButtonText}" Grid.Row="1" IsEnabled="{Binding IsNotLoading}"
+        <Button BackgroundColor="{x:StaticResource Tertiary}" TextColor="#F5F5F5" Text="{Binding AddEditButtonText}" Grid.Row="1" IsEnabled="{Binding IsNotLoading}"
                 Command="{Binding SaveSongCommand}" Margin="9" />
 
-        <Button Text="Clear Form" Command="{Binding ClearFormCommand}" IsEnabled="{Binding IsNotLoading}" 
+        <Button BackgroundColor="{x:StaticResource Tertiary}" TextColor="#F5F5F5" Text="Clear Form" Command="{Binding ClearFormCommand}" IsEnabled="{Binding IsNotLoading}" 
                 Grid.Row="2" Margin="9"/>
 
         <RefreshView Grid.Row="4"
@@ -54,12 +70,13 @@
                                 <Button Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SongListViewModel}}, Path=DeleteSongCommand }" 
                                                           CommandParameter="{Binding Id}" Margin="9"/>
                             </HorizontalStackLayout>
-                            
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
     </Grid>
-   
+
 </ContentPage>
+

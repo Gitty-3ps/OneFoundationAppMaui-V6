@@ -10,7 +10,7 @@ namespace OneFoundationAppMaui.Services
     {
         HttpClient _httpClient;
         public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8097" :
-            "http://localhost:8099";
+            "http://localhost:8097";
 
         public string StatusMessage;
         public SongApiService()

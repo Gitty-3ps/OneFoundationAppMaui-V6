@@ -7,6 +7,9 @@
              x:DataType ="vm:SongDetailsViewModel">
 
         <VerticalStackLayout>
+        <Label Text="{Binding Song.Title}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold"/>
         <Label Text="{Binding Song.Authors}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold"/>

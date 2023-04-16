@@ -1,4 +1,7 @@
 
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
 namespace OneFoundationApp.Api
 {
     public class Program
@@ -16,6 +19,10 @@ namespace OneFoundationApp.Api
             builder.Services.AddCors(o => {
                 o.AddPolicy("AllowAll", a => a.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
             });
+
+            var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
+            var conn = new SqliteConnection($"Data Source=C:\\songlistdb\\songlist.db");
+            builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
 
             var app = builder.Build();
 
