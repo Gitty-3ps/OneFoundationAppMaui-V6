@@ -44,8 +44,8 @@
                                                           CommandParameter="{Binding Id}" />
                                 </Frame.GestureRecognizers>
                                 <HorizontalStackLayout Padding="5" Spacing="5">
-                                    <Label Text="{Binding Title}"></Label>
-                                    <Label Text="{Binding Authors}"></Label>
+                                    <Label Text="{Binding Title}" TextColor="Purple"></Label>
+                                    <Label Text="{Binding Authors}" TextColor="Purple"></Label>
                                 </HorizontalStackLayout>
                             </Frame>
                             <HorizontalStackLayout Grid.Column="1">

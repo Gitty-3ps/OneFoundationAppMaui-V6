@@ -25,7 +25,7 @@ namespace OneFoundationAppMaui.Services
                 var response = await _httpClient.GetStringAsync("/songs");
                 return JsonConvert.DeserializeObject<List<Song>>(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to retrieve data.";
             }
@@ -40,7 +40,7 @@ namespace OneFoundationAppMaui.Services
                 var response = await _httpClient.GetStringAsync("/songs/" + id);
                 return JsonConvert.DeserializeObject<Song>(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to retrieve data.";
             }
@@ -56,7 +56,7 @@ namespace OneFoundationAppMaui.Services
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Insert Successful";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to add data.";
             }
@@ -71,7 +71,7 @@ namespace OneFoundationAppMaui.Services
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Delete Successful";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to delete data.";
             }
@@ -85,7 +85,7 @@ namespace OneFoundationAppMaui.Services
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Update Successful";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to update data.";
             }

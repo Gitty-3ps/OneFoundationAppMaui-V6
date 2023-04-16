@@ -47,8 +47,10 @@ namespace OneFoundationAppMaui.ViewModels
             {
                 IsLoading = true;
                 if (Songs.Any()) Songs.Clear();
-                var songs = new List<Song>();
-                songs = await songApiService.GetSongs();
+                /*var songs = new List<Song>();
+                songs = await songApiService.GetSongs();*/
+
+                var songs = App.SongDatabaseService.GetSongs();
                 foreach (var song in songs) Songs.Add(song);
             }
             catch (Exception ex)
@@ -83,6 +85,7 @@ namespace OneFoundationAppMaui.ViewModels
 
             var song = new Song
             {
+                Id = SongId,
                 Title = Title,
                 Authors = Authors,
                 Lyrics = Lyrics
@@ -90,7 +93,6 @@ namespace OneFoundationAppMaui.ViewModels
 
             if (SongId != 0)
             {
-                song.Id = songId;
                 App.SongDatabaseService.UpdateSong(song);
                 await Shell.Current.DisplayAlert("Info", App.SongDatabaseService.StatusMessage, "Ok");
             }
