@@ -130,38 +130,6 @@ namespace OneFoundationAppMaui.ViewModels
             await ClearForm();                
         }
 
-        /*    [RelayCommand]
-            async Task SaveSong()
-            {
-                if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Authors) || string.IsNullOrEmpty(Lyrics))
-                {
-                    await Shell.Current.DisplayAlert("Invalid Data", "Please insert valid data", "Ok");
-                    return;
-                }
-
-                var song = new Song
-                {
-                    Title = Title,
-                    Authors = Authors,
-                    Lyrics = Lyrics
-                };
-
-                if (SongId != 0)
-                {
-                    song.Id = SongId;
-                    App.SongDatabaseService.UpdateSong(song);
-                    await Shell.Current.DisplayAlert("Info", App.SongDatabaseService.StatusMessage, "Ok");
-                }
-                else
-                {
-                    App.SongDatabaseService.AddSong(song);
-                    await Shell.Current.DisplayAlert("Info", App.SongDatabaseService.StatusMessage, "Ok");
-                }
-
-                await GetSongList();
-                await ClearForm();
-            }*/
-
         [RelayCommand]
         async Task DeleteSong(int id)
         {
@@ -212,33 +180,5 @@ namespace OneFoundationAppMaui.ViewModels
         {
             await Shell.Current.DisplayAlert("Info", message, "OK");
         }
-
-        /*[RelayCommand]
-        async Task UpdateSong(int id)
-        {
-            AddEditButtonText = editButtonText;
-            return;
-        }
-
-        [RelayCommand]
-        async Task SetEditMode(int id)
-        {
-            AddEditButtonText = editButtonText;
-            SongId = id;
-            var song = App.SongDatabaseService.GetSong(id);
-            Title = song.Title;
-            Authors = song.Authors;
-            Lyrics = song.Lyrics;
-        }
-
-        [RelayCommand]
-        async Task ClearForm()
-        {
-            AddEditButtonText = createButtonText;
-            SongId = 0;
-            Title = string.Empty;
-            Authors = string.Empty;
-            Lyrics = string.Empty;
-        }*/
     }
 }
