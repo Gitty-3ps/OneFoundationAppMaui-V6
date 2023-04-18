@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace OneFoundationAppMaui.Api_v2
 {
-    public class SongListDbContext : DbContext
+    public class SongListDbContext : IdentityDbContext
     {
         public SongListDbContext(DbContextOptions<SongListDbContext> options) : base(options)
         {

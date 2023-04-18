@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +15,13 @@ builder.Services.AddCors(o => {
     o.AddPolicy("AllowAll", a => a.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 });
 
-var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
+//var dbPath = Path.Join(Directory.GetCurrentDirectory(), "songlist.db");
 var conn = new SqliteConnection($"Data Source=C:\\songlistdb\\songlist.db");
 builder.Services.AddDbContext<SongListDbContext>(o => o.UseSqlite(conn));
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<SongListDbContext>();
 
 builder.Host.UseSerilog((ctx, lc) =>
     lc.WriteTo.Console()
