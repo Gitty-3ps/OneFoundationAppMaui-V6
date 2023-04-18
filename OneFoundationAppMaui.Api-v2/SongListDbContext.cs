@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace OneFoundationAppMaui.Api_v2
@@ -88,6 +89,59 @@ namespace OneFoundationAppMaui.Api_v2
                     Lyrics = "Falling on my knee  I bow  Bow down  Falling on my knee  I bow  Bow down  Falling on my knee  I bow  Bow down  Falling on my knee  I bow  Bow down  Falling on my knee  I bow  Bow down  Falling on my knee  I bow  Bow down  Something  Something i can't see until  I bow  Something  Something i (can't see) can't see until  I bow (i bow)  There are something  Something (i can't see) i can't see until  I bow  There are something  Something i can't see until  I bow  I can see clearly now(I can see clearly now)  Here on my knees  I can see clearly now(I can see clearly now)  Here on my knees(Here on my knees)  I understand better now(I understand better now)  Here on my knees(Here on my knees)  I understand better now(I understand better now)  Here on my knees  I understand better now(I understand better now)  Here on my knees",
                 }
             );
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = "d1b5952a-2162-46c7-b29e-1a2a68922c14",
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                },
+                new IdentityRole
+                {
+                    Id = "42358d3e-3c22-45e1-be81-6caa7ba865ef",
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+            );
+
+            var hasher = new PasswordHasher<IdentityUser>();
+
+            modelBuilder.Entity<IdentityUser>().HasData(
+                    new IdentityUser
+                    {
+                        Id = "408aa945-3d84-4421-8342-7269ec64d949",
+                        Email = "admin@localhost.com",
+                        NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                        NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                        UserName = "admin@localhost.com",
+                        PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                        EmailConfirmed = true
+                    },
+                    new IdentityUser
+                    {
+                        Id = "3f4631bd-f907-4409-b416-ba356312e659",
+                        Email = "user@localhost.com",
+                        NormalizedEmail = "USER@LOCALHOST.COM",
+                        NormalizedUserName = "USER@LOCALHOST.COM",
+                        UserName = "user@localhost.com",
+                        PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                        EmailConfirmed = true
+                    }
+                );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = "d1b5952a-2162-46c7-b29e-1a2a68922c14",
+                        UserId = "408aa945-3d84-4421-8342-7269ec64d949",
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = "42358d3e-3c22-45e1-be81-6caa7ba865ef",
+                        UserId = "3f4631bd-f907-4409-b416-ba356312e659",
+                    }
+                );
         }
     }
 }
