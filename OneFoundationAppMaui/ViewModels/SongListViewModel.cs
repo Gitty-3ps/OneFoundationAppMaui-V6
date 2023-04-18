@@ -1,11 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Layouts;
 using OneFoundationAppMaui.Models;
 using OneFoundationAppMaui.Services;
 using OneFoundationAppMaui.Views;
-using SongListApp.Maui.Services;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using Debug = System.Diagnostics.Debug;
 
 namespace OneFoundationAppMaui.ViewModels
@@ -39,7 +38,6 @@ namespace OneFoundationAppMaui.ViewModels
         string addEditButtonText;
         [ObservableProperty]
         int songId;
-
 
         [RelayCommand]
         async Task GetSongList()
@@ -156,11 +154,27 @@ namespace OneFoundationAppMaui.ViewModels
         }
 
         [RelayCommand]
+        async Task UpdateSong(int id)
+        {
+            AddEditButtonText = editButtonText;
+            return;
+        }
+
+        [RelayCommand]
         async Task SetEditMode(int id)
         {
             AddEditButtonText = editButtonText;
             SongId = id;
-            var song = App.SongDatabaseService.GetSong(id);
+            Song song;
+            if (accessType == NetworkAccess.Internet)
+            {
+                song = await songApiService.GetSong(SongId);
+            }
+            else
+            {
+                song = App.SongDatabaseService.GetSong(SongId);
+            }
+
             Title = song.Title;
             Authors = song.Authors;
             Lyrics = song.Lyrics;
