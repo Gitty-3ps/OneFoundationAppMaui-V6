@@ -1,8 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <network-security-config>
+	<!--<base-config cleartextTrafficPermitted="true" />-->
 	<domain-config cleartextTrafficPermitted="true">
 		<domain includeSubdomains="true">10.0.2.2</domain>
 		<domain includeSubdomains="true">localhost</domain>
+		<!--<domain includeSubdomains="true">192.168.19.1</domain>
+		<domain includeSubdomains="true"></domain>
+		<domain includeSubdomains="true">192.168.19.1</domain>
+		<domain includeSubdomains="true">192.168.65.1</domain>
+		<domain includeSubdomains="true">169.254.219.47</domain>
+		<domain includeSubdomains="true">169.254.245.145</domain>
+		<domain includeSubdomains="true">169.254.173.17</domain>
+		<domain includeSubdomains="true">169.254.113.2</domain>
+		<domain includeSubdomains="true">192.168.2.4</domain>
+		<domain includeSubdomains="true">169.254.155.141</domain>-->
+		
 		<trust-anchors>
 			<certificates src="system" />
 		</trust-anchors>
