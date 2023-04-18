@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OneFoundationAppMaui.Api_v2;
 using Serilog;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,4 +78,45 @@ app.MapPost("/songs", async (Song song, SongListDbContext db) => {
 
 });
 
+app.MapPost("/login", async (LoginDto loginDto, UserManager<IdentityUser> _userManager) =>
+{
+    var user = await _userManager.FindByNameAsync(loginDto.Username);
+
+    if (user is null)
+    {
+        return Results.Unauthorized();
+    }
+
+    var isValidPassword = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+    if (!isValidPassword)
+    {
+        return Results.Unauthorized();
+    }
+
+    // Generate an access token
+
+    var response = new AuthResponseDto
+    {
+        UserId = user.Id,
+        Username = user.UserName,
+        Token = "AccessTokenHere"
+    };
+
+    return Results.Ok(response);
+});
+
 app.Run();
+
+internal class LoginDto
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
+}
+
+internal class AuthResponseDto
+{
+    public string UserId { get; set; }
+    public string Username { get; set; }
+    public string Token { get; set; }
+}

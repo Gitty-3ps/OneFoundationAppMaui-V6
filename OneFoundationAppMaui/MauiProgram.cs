@@ -26,9 +26,13 @@ public static class MauiProgram
 
 
         builder.Services.AddSingleton<SongListViewModel>();
+        builder.Services.AddSingleton<LoadingPageViewModel>();
+        builder.Services.AddSingleton<LoginViewModel>();
         builder.Services.AddTransient<SongDetailsViewModel>();
 
         builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<LoadingPage>();
+        builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddTransient<SongDetailsPage>();
 
 

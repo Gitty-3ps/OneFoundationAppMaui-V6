@@ -14,7 +14,7 @@
 
     <ShellContent x:Name="MyDashboardPage"
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate local:LoadingPage}"
         Route="Dashboard" />
  
 

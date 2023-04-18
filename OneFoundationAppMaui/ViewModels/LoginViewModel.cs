@@ -1,4 +1,6 @@
-﻿using OneFoundationAppMaui.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using OneFoundationAppMaui.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,47 +11,40 @@ using System.Windows.Input;
 
 namespace OneFoundationAppMaui.ViewModels
 {
-    class LoginViewModel : INotifyPropertyChanged
+    public partial class LoginViewModel : BaseViewModel
     {
-        private LoginRequestModel myloginRequestModel = new LoginRequestModel();
-        public LoginRequestModel MyloginRequestModel
-        {
-            get { return myloginRequestModel; }
-            set
-            {
-                myloginRequestModel = value;
+        [ObservableProperty]
+        string username;
 
-                OnPropertyChanged(nameof(MyloginRequestModel));
+        [ObservableProperty]
+        string password;
+
+        [RelayCommand]
+        async Task Login()
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                await DisplayLoginError();
+            }
+            else
+            {
+                // Call API to attempt a login
+                var loginSuccessful = true;
+
+                if (loginSuccessful)
+                {
+                    //display welcome message
+
+                    //build...
+                }
+
+                await DisplayLoginError();
             }
         }
-
-        public ICommand LoginCommand { get; }
-
-        public LoginViewModel()
+        async Task DisplayLoginError()
         {
-            LoginCommand = new Command(PerformLoginOperation);
-        }
-
-        private async void PerformLoginOperation(object obj)
-        {
-            //Perform API Operation/ DB Operation
-
-            var data = MyloginRequestModel;
-
-
-            Preferences.Set("UserAlreadyloggedIn", true);
-
-
-            await Shell.Current.GoToAsync(state: "//Dashboard");
-
-
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            await Shell.Current.DisplayAlert("Invalid Attempt", "Invalid Username or Password","OK");
+            Password = string.Empty;
         }
     }
 }

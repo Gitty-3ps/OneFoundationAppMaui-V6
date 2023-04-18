@@ -9,16 +9,9 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
         Routing.RegisterRoute(nameof(SongDetailsPage), typeof(SongDetailsPage));
-/*
-        var getuserSavedKey = Preferences.Get("UserAlreadyloggedIn", false);
-
-		if (getuserSavedKey == true)
-		{
-			MyAppShell.CurrentItem = MyDashboardPage;
-		}
-		else
-		{
-            MyAppShell.CurrentItem = MyLoginPage;
-        }*/
+        Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        Routing.RegisterRoute(nameof(SongDetailsPage), typeof(SongDetailsPage));
+  
     }
 }

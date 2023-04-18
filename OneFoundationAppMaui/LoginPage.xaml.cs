@@ -1,12 +1,12 @@
 using OneFoundationAppMaui.ViewModels;
 
-namespace OneFoundationAppMaui.Views;
+namespace OneFoundationAppMaui;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LoginViewModel loginViewModel)
 	{
 		InitializeComponent();
-		BindingContext = new LoginViewModel();
+		BindingContext = loginViewModel;
 	}
 }
