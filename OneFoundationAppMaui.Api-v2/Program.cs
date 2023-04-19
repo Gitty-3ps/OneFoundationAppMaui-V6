@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OneFoundationAppMaui.Api_v2;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -126,12 +127,37 @@ app.MapPost("/login", async (LoginDto loginDto, UserManager<IdentityUser> _userM
     }
 
     // Generate an access token
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]));
+    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+    var roles = await _userManager.GetRolesAsync(user);
+    var claims = await _userManager.GetClaimsAsync(user);
+    var tokenClaims = new List<Claim>
+    {
+        //        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim("email_confirmed", user.EmailConfirmed.ToString())
+    }.Union(claims)
+    .Union(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+    //changed token to security token
+    var securityToken = new JwtSecurityToken(
+        issuer: builder.Configuration["JwtSettings:Issuer"],
+        audience: builder.Configuration["JwtSettings:Audience"],
+        claims: tokenClaims,
+        expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(builder.Configuration["JwtSettings:DurationInMintues"])),
+        signingCredentials: credentials
+    );
+
+    var accessToken = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
     var response = new AuthResponseDto
     {
         UserId = user.Id,
         Username = user.UserName,
-        Token = "AccessTokenHere"
+        Token = accessToken
     };
 
     return Results.Ok(response);

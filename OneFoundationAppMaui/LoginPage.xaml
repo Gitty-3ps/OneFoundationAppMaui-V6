@@ -23,7 +23,7 @@
             <VerticalStackLayout Margin="0,20,0,0">
                 <Label Text="Email"/>
                 <StackLayout>
-                    <local:BorderlessEntry Placeholder="Enter Username" Text="{Binding UserName}" Margin="{OnPlatform Android='0,0',iOS='0,10'}"/>
+                    <local:BorderlessEntry Placeholder="Enter Username" Text="{Binding Username}" Margin="{OnPlatform Android='0,0',iOS='0,10'}"/>
                 </StackLayout>
             </VerticalStackLayout>
 

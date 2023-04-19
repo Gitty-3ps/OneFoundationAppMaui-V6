@@ -1,6 +1,7 @@
 ﻿using OneFoundationAppMaui.Views;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -24,7 +25,7 @@ namespace OneFoundationAppMaui.ViewModels
             {
                 await GoToLoginPage();
             }
-            /*else
+            else
             {
                 var jsonToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
 
@@ -35,25 +36,26 @@ namespace OneFoundationAppMaui.ViewModels
                 }
                 else
                 {
-                    var role = jsonToken.Claims.FirstOrDefault(q => q.Type.Equals(ClaimTypes.Role))?.Value;
+                    /*var role = jsonToken.Claims.FirstOrDefault(q => q.Type.Equals(ClaimTypes.Role))?.Value;
 
                     App.UserInfo = new UserInfo()
                     {
                         Username = jsonToken.Claims.FirstOrDefault(q => q.Type.Equals(ClaimTypes.Email))?.Value,
                         Role = role
                     };
-                    MenuBuilder.BuildMenu();
+                    MenuBuilder.BuildMenu();*/
                     await GoToMainPage();
-                }*/
+                }
             }
-            private async Task GoToLoginPage()
-            {
-                await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
-            }
+        }
+        private async Task GoToLoginPage()
+        {
+            await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
+        }
 
-            private async Task GoToMainPage()
-            {
-                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
-            }   
+        private async Task GoToMainPage()
+        {
+            await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+        }
     }
 }

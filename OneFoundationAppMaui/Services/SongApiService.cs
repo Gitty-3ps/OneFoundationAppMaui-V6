@@ -9,8 +9,8 @@ namespace OneFoundationAppMaui.Services
         HttpClient _httpClient;
         public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8097" :
             "http://localhost:8097";
-
         public string StatusMessage;
+
         public SongApiService()
         {
             _httpClient = new() { BaseAddress = new Uri(BaseAddress) };
@@ -20,6 +20,7 @@ namespace OneFoundationAppMaui.Services
         {
             try
             {
+                await SetAuthToken();
                 var response = await _httpClient.GetStringAsync("/cars");
                 return JsonConvert.DeserializeObject<List<Song>>(response);
             }
@@ -87,6 +88,30 @@ namespace OneFoundationAppMaui.Services
             {
                 StatusMessage = "Failed to update data.";
             }
+        }
+
+        public async Task<AuthResponseModel> Login(LoginModel loginModel)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/login", loginModel);
+                response.EnsureSuccessStatusCode();
+                StatusMessage = "Login Successful";
+
+                return JsonConvert.DeserializeObject<AuthResponseModel>(await response.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = "Failed to login successfully.";
+                //AuthResponseModel()
+                return default;
+            }
+        }
+
+        public async Task SetAuthToken()
+        {
+            var token = await SecureStorage.GetAsync("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
     }
