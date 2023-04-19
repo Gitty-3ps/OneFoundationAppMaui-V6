@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OneFoundationAppMaui.Api_v2;
 using Serilog;
 using System.Security.Claims;
@@ -25,6 +28,31 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<SongListDbContext>();
 
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
+        ["JwtSettings:Key"]))
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{ 
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+    .RequireAuthenticatedUser()
+    .Build();
+});
+
 builder.Host.UseSerilog((ctx, lc) =>
     lc.WriteTo.Console()
     .ReadFrom.Configuration(ctx.Configuration));
@@ -36,8 +64,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors("AllowAll");
 
 app.MapGet("/songs", async (SongListDbContext db) => await db.Songs.ToListAsync());
@@ -104,7 +135,7 @@ app.MapPost("/login", async (LoginDto loginDto, UserManager<IdentityUser> _userM
     };
 
     return Results.Ok(response);
-});
+}).AllowAnonymous();
 
 app.Run();
 
