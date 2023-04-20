@@ -4,18 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:OneFoundationAppMaui"
-    xmlns:mylogin="clr-namespace:OneFoundationAppMaui.Views"
-    Shell.FlyoutBehavior="Flyout" 
-    x:Name="MyAppShell">
+    Shell.FlyoutBehavior="Flyout">
 
-    <!--<FlyoutItem Route="Login" x:Name="MyLoginPage">
-        <ShellContent ContentTemplate="{DataTemplate mylogin:LoginPage}"/>
-    </FlyoutItem>-->
-
-    <ShellContent x:Name="MyDashboardPage"
+    <!--<ShellContent x:Name="MyDashboardPage"
         Title="Home"
         ContentTemplate="{DataTemplate local:LoadingPage}"
-        Route="Dashboard" />
- 
+        Route="LoadingPage" />
+
+    xmlns:mylogin="clr-namespace:OneFoundationAppMaui.Views"
+        x:Name="MyAppShell">-->
+    
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:LoadingPage}"
+        Route="LoadingPage" />
+
 
 </Shell>

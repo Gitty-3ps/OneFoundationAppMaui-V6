@@ -21,7 +21,7 @@ namespace OneFoundationAppMaui.Services
             try
             {
                 await SetAuthToken();
-                var response = await _httpClient.GetStringAsync("/cars");
+                var response = await _httpClient.GetStringAsync("/songs");
                 return JsonConvert.DeserializeObject<List<Song>>(response);
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace OneFoundationAppMaui.Services
         {
             try
             {
-                var response = await _httpClient.GetStringAsync("/cars/" + id);
+                var response = await _httpClient.GetStringAsync("/songs/" + id);
                 return JsonConvert.DeserializeObject<Song>(response);
             }
             catch (Exception)
@@ -51,7 +51,7 @@ namespace OneFoundationAppMaui.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("/cars/", song);
+                var response = await _httpClient.PostAsJsonAsync("/songs/", song);
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Insert Successful";
             }
@@ -66,7 +66,7 @@ namespace OneFoundationAppMaui.Services
             try
             {
 
-                var response = await _httpClient.DeleteAsync("/cars/" + id);
+                var response = await _httpClient.DeleteAsync("/songs/" + id);
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Delete Successful";
             }
@@ -80,7 +80,7 @@ namespace OneFoundationAppMaui.Services
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync("/cars/" + id, song);
+                var response = await _httpClient.PutAsJsonAsync("/songs/" + id, song);
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "Update Successful";
             }

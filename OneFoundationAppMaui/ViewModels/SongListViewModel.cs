@@ -26,6 +26,10 @@ namespace OneFoundationAppMaui.ViewModels
             this.songApiService = songApiService;
         }
 
+        public SongListViewModel()
+        {
+        }
+
         [ObservableProperty]
         bool isRefreshing;
         [ObservableProperty]

@@ -38,7 +38,7 @@ namespace OneFoundationAppMaui.ViewModels
             else
             {
                 // Call API to attempt a login
-                var loginModel = new LoginModel(Username, Password);
+                var loginModel = new LoginModel(username, password);
 
                 var response = await songApiService.Login(loginModel);
 

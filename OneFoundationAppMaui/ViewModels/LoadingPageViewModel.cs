@@ -32,7 +32,7 @@ namespace OneFoundationAppMaui.ViewModels
                 if (jsonToken.ValidTo < DateTime.UtcNow)
                 {
                     SecureStorage.Remove("Token");
-                    await GoToLoginPage();
+                    await GoToMainPage();
                 }
                 else
                 {
@@ -44,7 +44,7 @@ namespace OneFoundationAppMaui.ViewModels
                         Role = role
                     };
                     MenuBuilder.BuildMenu();*/
-                    await GoToMainPage();
+                    await GoToLoginPage();
                 }
             }
         }
