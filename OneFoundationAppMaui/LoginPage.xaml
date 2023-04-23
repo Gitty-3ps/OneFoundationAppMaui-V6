@@ -21,7 +21,7 @@
             </Grid>
 
             <VerticalStackLayout Margin="0,20,0,0">
-                <Label Text="Email"/>
+                <Label Text="Username"/>
                 <StackLayout>
                     <local:BorderlessEntry Placeholder="Enter Username" Text="{Binding Username}" Margin="{OnPlatform Android='0,0',iOS='0,10'}"/>
                 </StackLayout>

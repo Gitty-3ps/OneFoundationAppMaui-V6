@@ -1,7 +1,7 @@
 ﻿using OneFoundationAppMaui.Models;
 using SQLite;
 
-namespace SongListApp.Maui.Services
+namespace OneFoundationAppMaui.Services
 {
     public class SongDatabaseService
     {

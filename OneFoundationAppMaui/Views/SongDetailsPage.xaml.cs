@@ -18,4 +18,5 @@ public partial class SongDetailsPage : ContentPage
         base.OnAppearing();
         await songDetailsViewModel.GetSongData();
     }
+
 }

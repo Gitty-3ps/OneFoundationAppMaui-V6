@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneFoundationAppMaui.Api_v2;
 
@@ -10,9 +11,11 @@ using OneFoundationAppMaui.Api_v2;
 namespace OneFoundationAppMaui.Api_v2.Migrations
 {
     [DbContext(typeof(SongListDbContext))]
-    partial class SongListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230421055039_20230418172436_AddedIdentityTables_template")]
+    partial class _20230418172436_AddedIdentityTables_template
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -148,15 +151,15 @@ namespace OneFoundationAppMaui.Api_v2.Migrations
                         {
                             Id = "408aa945-3d84-4421-8342-7269ec64d949",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac2c3ba8-8df3-4174-97a1-fe5cb0b331bb",
+                            ConcurrencyStamp = "f6026dcd-99c9-4dd1-8da8-d49344047895",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMKP82EamW4zLoeIE9IXnpUfprrltdDoqYJkM0KJBSOi9Y2h/2AhKEjtKv+QeVUcjQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAKSCmO5qIMNfomzvxG+CeCu1bCIV3DGuf9aLws5mi8+wAAMarOxAP54JC4sqZ52TQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3813679b-2f8f-4bde-9292-29090f4ea9a9",
+                            SecurityStamp = "bb968406-5481-440a-be75-c807471f477c",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -164,15 +167,15 @@ namespace OneFoundationAppMaui.Api_v2.Migrations
                         {
                             Id = "3f4631bd-f907-4409-b416-ba356312e659",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11454481-2d37-4fa8-b6be-ccd8799d66e2",
+                            ConcurrencyStamp = "20c1a987-bb2b-46b6-9ce1-00544de3ddcf",
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENqpTPbbteCA6imGLv91IIov7CdupE4st7an2v8UN5ApD3z/kv7n4EtYaIEX256Ykg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO/CQZXu/bEmWG8lXvhPnKiDyj2elERCdg3KeqLO2Idgu+S03YcYhBHJmqCWr8C7jA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d3e3cd5c-e314-470c-bd6f-e757c275b07f",
+                            SecurityStamp = "9e11c07b-7fec-45e2-9d19-830bdec22801",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });

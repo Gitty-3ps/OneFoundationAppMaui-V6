@@ -2,7 +2,6 @@
 using OneFoundationAppMaui.Services;
 using OneFoundationAppMaui.ViewModels;
 using OneFoundationAppMaui.Views;
-using SongListApp.Maui.Services;
 
 namespace OneFoundationAppMaui;
 
@@ -28,11 +27,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<SongListViewModel>();
         builder.Services.AddSingleton<LoadingPageViewModel>();
         builder.Services.AddSingleton<LoginViewModel>();
+        builder.Services.AddSingleton<LogoutViewModel>();
         builder.Services.AddTransient<SongDetailsViewModel>();
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<LoadingPage>();
         builder.Services.AddSingleton<LoginPage>();
+        builder.Services.AddSingleton<LogoutPage>();
         builder.Services.AddTransient<SongDetailsPage>();
 
         return builder.Build();

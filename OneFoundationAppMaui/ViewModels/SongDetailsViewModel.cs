@@ -1,6 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using OneFoundationAppMaui.Models;
+﻿using OneFoundationAppMaui.Models;
 using OneFoundationAppMaui.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace OneFoundationAppMaui.ViewModels
@@ -8,11 +15,11 @@ namespace OneFoundationAppMaui.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public partial class SongDetailsViewModel : BaseViewModel, IQueryAttributable
     {
-        private readonly SongApiService songApiService;
+        private readonly SongApiService carApiService;
 
-        public SongDetailsViewModel(SongApiService songApiService)
+        public SongDetailsViewModel(SongApiService carApiService)
         {
-            this.songApiService = songApiService;
+            this.carApiService = carApiService;
         }
 
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -32,7 +39,7 @@ namespace OneFoundationAppMaui.ViewModels
         {
             if (accessType == NetworkAccess.Internet)
             {
-                Song = await songApiService.GetSong(Id);
+                Song = await carApiService.GetSong(Id);
             }
             else
             {

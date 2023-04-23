@@ -43,6 +43,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <Label Text="{Binding Title}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
+
         <VerticalStackLayout Padding="5" Grid.Row="0" Margin="9">
             <Entry x:Name="Title" Placeholder="Enter Title" Text="{Binding Title}"/>
             <Entry x:Name="Authors" Placeholder="Enter Authors" Text="{Binding Authors}"/>

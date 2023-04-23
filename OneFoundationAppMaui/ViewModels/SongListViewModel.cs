@@ -44,7 +44,7 @@ namespace OneFoundationAppMaui.ViewModels
         int songId;
 
         [RelayCommand]
-        async Task GetSongList()
+        public async Task GetSongList()
         {
             if (IsLoading) return;
             try

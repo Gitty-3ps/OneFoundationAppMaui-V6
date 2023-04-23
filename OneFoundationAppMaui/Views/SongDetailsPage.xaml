@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OneFoundationAppMaui.Views.SongDetailsPage"
              xmlns:vm="clr-namespace:OneFoundationAppMaui.ViewModels"
-             Title="{Binding Song.Title}"
+             Title="{Binding Title}"            
              x:DataType ="vm:SongDetailsViewModel">
 
-        <VerticalStackLayout>
+    <StackLayout>
         <Label Text="{Binding Song.Title}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold"/>
+            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
         <Label Text="{Binding Song.Authors}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold"/>
+            HorizontalOptions="Center" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
         <Label Text="{Binding Song.Lyrics}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" FontSize="Medium"/>
-    </VerticalStackLayout>
+            HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
+    </StackLayout>
 </ContentPage>
