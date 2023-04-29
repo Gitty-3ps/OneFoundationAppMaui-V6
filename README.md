@@ -21,6 +21,11 @@ Then navigate to the root directory of the cloned repository and run the app usi
 dotnet run
 ```
 
+## App Login Credentials
+```
+Username: admin@localhost.com   
+Password: P@ssword1
+```
 ## Features
 
 OneFoundationAppMaui-V6 is a simple mobile app that demonstrates the following features:
